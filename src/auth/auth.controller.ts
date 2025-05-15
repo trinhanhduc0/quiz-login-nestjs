@@ -41,7 +41,7 @@ export class AuthController {
     }
 
     // 2. Check user in DB
-    let user = await this.userService.findByEmailId(emailId);
+    let user = await this.userService.findByEmailId(email);
     Logger.log('User found:', user);
     if (!user) {
       const [firstName, ...rest] = name.split(' ');

@@ -9,6 +9,9 @@ export class User {
   @IsEmail()
   email: string;
 
+  @Prop({ required: true, unique: true })
+  email_id: string;
+
   @Prop({ required: true })
   @IsString()
   password: string;
