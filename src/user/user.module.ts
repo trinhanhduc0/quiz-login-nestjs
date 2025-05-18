@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './entities/user.entity';
+import { Users, UserSchema } from './entities/user.entity';
+import { UserService } from './user.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), // 👈 Bắt buộc phải có
+    MongooseModule.forFeature(
+      [{ name: Users.name, schema: UserSchema }],
+      'users',
+    ),
   ],
   controllers: [UserController],
   providers: [UserService],

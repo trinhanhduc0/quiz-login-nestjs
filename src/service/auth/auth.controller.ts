@@ -8,11 +8,9 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-// import { AuthLoginDto } from './dto/auth-login.dto';
-import { UserService } from '../user/user.service';
+import { UserService } from '../../user/user.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
-import { RedisService } from 'src/redis/redis.service';
-// import { RedisService } from '../redis/redis.service';
+import { RedisService } from 'src/service/redis/redis.service';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +23,7 @@ export class AuthController {
   @Post('google/login')
   async loginWithGoogle(@Body() body: AuthLoginDto) {
     const { token } = body;
-
+    Logger.log(token);
     if (!token) {
       throw new HttpException('Missing token', HttpStatus.BAD_REQUEST);
     }
@@ -39,18 +37,21 @@ export class AuthController {
     if (!email || !name) {
       throw new HttpException('Invalid token claims', HttpStatus.BAD_REQUEST);
     }
+    Logger.log(decoded);
 
     // 2. Check user in DB
     let user = await this.userService.findByEmailId(email);
     Logger.log('User found:', user);
+    //******************************** */
+
     if (!user) {
       const [firstName, ...rest] = name.split(' ');
       const lastName = rest.join(' ') || '';
       user = await this.userService.create({
-        emailId,
+        email_id: emailId,
         email,
-        firstName,
-        lastName,
+        first_name: name,
+        last_name: name,
         password: 'default_password',
       });
     }
