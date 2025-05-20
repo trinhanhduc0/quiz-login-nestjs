@@ -15,7 +15,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
         const uri = config.get<string>('MONGODB_USERDB_URI');
-        console.log('MONGODB_USERDB_URI:', uri); // 👈 kiểm tra
         if (!uri) {
           throw new Error('MONGODB_USERDB_URI is not defined in .env');
         }

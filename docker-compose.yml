@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:8.0.0
+    ports:
+      - '6379:6379'
+
+  app:
+    build: .
+    container_name: login-ilearne
+    env_file: .env
+    ports:
+      - '8081:8081'
+    depends_on:
+      - redis
+    volumes:
+      - ./firebase-config.json:/app/firebase-config.json:ro
